@@ -221,7 +221,7 @@ class Browser(object):
                 time.sleep(1)
 
         if os.environ.get("VISUAL_SNAPSHOT_ENABLE") == "1":
-            time.sleep(0.300)
+            self.driver.implicitly_wait(0.300)  # seconds
             self.save_screenshot(
                 u".artifacts/visual-snapshots/acceptance/{}.png".format(slugify(name))
             )
