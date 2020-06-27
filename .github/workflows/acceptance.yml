@@ -206,13 +206,23 @@ jobs:
             name: visual-snapshots
             path: .artifacts/visual-snapshots
 
+    visual-diff:
+      needs: acceptance
+      runs-on: ubuntu-16.04
+
+      steps:
+        - name: Download snapshots
+          uses: actions/download-artifact@v2
+          with:
+            name: visual-snapshots
+            path: .artifacts/visual-snapshots
+
         - name: Diff snapshots
           if: ${{ github.ref != 'refs/heads/master' }}
           id: visual-snapshots-diff
           uses: getsentry/action-visual-snapshot@v1-alpha
           with:
             githubToken: ${{ secrets.GITHUB_TOKEN }}
-            base-workflow-id: 'acceptance.yml'
             snapshot-path: .artifacts/visual-snapshots
             diff-path: .artifacts/visual-snapshots-diff
             gcs-bucket: 'sentry-visual-snapshots'
